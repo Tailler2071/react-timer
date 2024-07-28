@@ -15,7 +15,7 @@
 }
 
 .buttons {
-  .buttonStart, .buttonPause, .buttonResume {
+  .buttonStart, .buttonPause, .buttonResume, .buttonRestart {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,6 +43,17 @@
 
   .buttonPause {
     border: 3px solid var(--button-background-color-secondary);
+  }
+
+  .buttonRestart {
+    border: 3px solid var(--button-background-color-primary);
+
+    svg {
+      width: 23px;
+      height: 23px;
+      fill: var(--button-background-color-primary);
+    }
+
   }
 }
 

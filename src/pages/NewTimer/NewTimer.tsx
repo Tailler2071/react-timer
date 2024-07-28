@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTimer } from "../../redux/features/timers/timersSlice";
+import {Link} from "react-router-dom";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {addTimer} from "../../redux/features/timers/timersSlice";
 import WheelPicker from "../../components/WheelPicker/WheelPicker";
 import BigTimer from "../../components/BigTimer/BigTimer";
 import s from "./NewTimer.module.scss";
@@ -12,8 +12,8 @@ const NewTimer = () => {
     const [isStarted, setIsStarted] = useState(false);
     const [expiryTimestamp, setExpiryTimestamp] = useState<Date>(new Date);
     const dispatch = useDispatch();
-    const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, "0"));
-    const seconds = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, "0"));
+    const minutes = Array.from({length: 60}, (_, i) => i.toString().padStart(2, "0"));
+    const seconds = Array.from({length: 60}, (_, i) => i.toString().padStart(2, "0"));
     const totalSeconds = selectedMinute * 60 + selectedSecond;
 
 
@@ -52,10 +52,11 @@ const NewTimer = () => {
                             itemHeight={60}
                         />
                     </div>
-
-                    <button className={s.button} onClick={startTimer}>
-                        Старт
-                    </button>
+                    <div className={s.buttonBox}>
+                        <button className={s.button} onClick={startTimer}>
+                            Старт
+                        </button>
+                    </div>
                 </>
             ) : (
                 <BigTimer expiryTimestamp={expiryTimestamp} secondsTime={totalSeconds}/>

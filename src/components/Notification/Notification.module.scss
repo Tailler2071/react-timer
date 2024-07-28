@@ -1,0 +1,19 @@
+.box {
+  display: grid;
+  gap: 20px;
+
+  .button {
+    padding: 10px 14px;
+    background-color: #F9891C;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  .message {
+    justify-self: center;
+    font-weight: 800;
+    color: #1A1F23;
+  }
+}

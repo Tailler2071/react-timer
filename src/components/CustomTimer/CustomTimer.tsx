@@ -1,10 +1,14 @@
 import {useState} from "react";
 import {useTimer} from "react-timer-hook";
 import Button from "../Button/Button.tsx";
-import Pause from "../../assets/icons/pause.svg?react";
-import Start from "../../assets/icons/start.svg?react";
+import PauseIcon from "../../assets/icons/pause.svg?react";
+import StartIcon from "../../assets/icons/start.svg?react";
+import RetryIcon from "../../assets/icons/retry.svg?react";
 import {CustomTimerProps} from "./CustomTimer.props.ts";
 import s from "./CustomTimer.module.scss";
+import {toast} from "react-toastify";
+import Notification from "../Notification/Notification.tsx";
+
 
 const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
     const [showStart, setShowStart] = useState(true);
@@ -13,7 +17,8 @@ const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
     const [showRestart, setShowRestart] = useState(false);
     const totalMinutes = Math.floor(secondsTime / 60);
     const totalSeconds = secondsTime % 60;
-
+    const notify = () =>
+        toast(<Notification text={`${totalMinutes} мин ${totalSeconds} c`} myToast={() => toast.dismiss()}/>);
     const {
         seconds,
         minutes,
@@ -23,8 +28,7 @@ const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
         restart
     } = useTimer({
         expiryTimestamp, onExpire: () => {
-            console.log("Готово");
-
+            notify();
             setShowRestart(true);
             setShowPause(false);
         }, autoStart: false
@@ -69,10 +73,10 @@ const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
                 </div>
             </div>
             <div className={s.buttons}>
-                {showStart && <Button className={s.buttonStart} onClick={handleStart}> <Start/> </Button>}
-                {showPause && <Button className={s.buttonPause} onClick={handlePause}> <Pause/> </Button>}
-                {showResume && <Button className={s.buttonResume} onClick={handleResume}> <Start/> </Button>}
-                {showRestart && <Button className={s.button} onClick={handleRestart}> <Start/> </Button>}
+                {showStart && <Button className={s.buttonStart} onClick={handleStart}> <StartIcon/> </Button>}
+                {showPause && <Button className={s.buttonPause} onClick={handlePause}> <PauseIcon/> </Button>}
+                {showResume && <Button className={s.buttonResume} onClick={handleResume}> <StartIcon/> </Button>}
+                {showRestart && <Button className={s.buttonRestart} onClick={handleRestart}> <RetryIcon/> </Button>}
             </div>
         </div>
     );

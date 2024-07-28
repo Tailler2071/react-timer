@@ -2,17 +2,28 @@ import {useState} from "react";
 import {useTimer} from "react-timer-hook";
 import {CircularProgressbar, buildStyles} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {BigTimerProps} from "./BigTimer.props.ts";
 import s from "./BigTimer.module.scss";
+import {toast} from "react-toastify";
+import Notification from "../Notification/Notification.tsx";
 
 const BigTimer = ({expiryTimestamp, secondsTime}: BigTimerProps) => {
     const [showPause, setShowPause] = useState(true);
     const [showResume, setShowResume] = useState(false);
+    const [isEnd, setIsEnd] = useState(false);
+    const navigate = useNavigate();
+
+    const notify = () =>
+        toast(<Notification text={`${totalMinutes} мин ${totalSeconds} c`} myToast={() => {
+            toast.dismiss();
+            navigate("/");
+        }}/>);
 
     const {seconds, minutes, pause, resume} = useTimer({
         expiryTimestamp, onExpire: () => {
-            console.log("Готово");
+            notify();
+            setIsEnd(true);
         },
         autoStart: true
     });
@@ -51,26 +62,27 @@ const BigTimer = ({expiryTimestamp, secondsTime}: BigTimerProps) => {
                     })}
                 />
             </div>
+            {!isEnd &&
+                <div className={s.buttons}>
+                    {showPause && (
+                        <button className={s.pauseButton} onClick={handlePause}>
+                            Пауза
+                        </button>
+                    )}
 
-            <div className={s.buttons}>
-                {showPause && (
-                    <button className={s.pauseButton} onClick={handlePause}>
-                        Пауза
-                    </button>
-                )}
+                    {showResume && (
+                        <button className={s.pauseButton} onClick={handleResume}>
+                            Продолжить
+                        </button>
+                    )}
 
-                {showResume && (
-                    <button className={s.pauseButton} onClick={handleResume}>
-                        Продолжить
-                    </button>
-                )}
-
-                <Link to={"/"}>
-                    <button className={s.cancelButton}>
-                        Отмена
-                    </button>
-                </Link>
-            </div>
+                    <Link to={"/"}>
+                        <button className={s.cancelButton}>
+                            Отмена
+                        </button>
+                    </Link>
+                </div>
+            }
         </div>
     );
 };
