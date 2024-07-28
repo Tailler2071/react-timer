@@ -1,0 +1,48 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timer {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.total {
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.buttons {
+  .buttonStart, .buttonPause, .buttonResume {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+
+    svg {
+      width: 16px;
+      height: 23px;
+    }
+  }
+
+  .buttonStart {
+    border: 3px solid var(--button-background-color-primary);
+  }
+
+  .buttonResume {
+    border: 3px solid var(--button-background-color-secondary);
+
+    svg {
+      fill: var(--button-background-color-secondary);
+    }
+  }
+
+  .buttonPause {
+    border: 3px solid var(--button-background-color-secondary);
+  }
+}
+

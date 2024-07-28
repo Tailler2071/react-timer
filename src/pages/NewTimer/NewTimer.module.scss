@@ -1,0 +1,56 @@
+.root {
+  height: 100%;
+  padding: 200px 0 100px;
+}
+
+.top {
+  padding: 0 26px;
+  width: 390px;
+}
+
+.buttonCancel {
+  display: inline-flex;
+  align-items: center;
+  color: #29A354;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 10px 0;
+  min-height: 55px;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 26px;
+  padding: 14px 0;
+}
+
+
+
+.bn {
+  display: grid;
+  align-items: center;
+  //border: 1px solid red;
+  //background: linear-gradient(180deg, #000000 0%, #000000 11%, #1A1F23 35%, #1A1F23 51%, #1A1F23 51.01%, #000000 72.5%, #1A1F23 100%);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  //height: 195px;
+  overflow: hidden;
+  margin-bottom: 53px;
+
+
+}
+
+.button {
+  justify-self: center;
+  width: 206px;
+  height: 56px;
+  font-size: 20px;
+  font-weight: 800;
+  background-color: #29A354;
+  border-radius: 32px;
+  margin-bottom: 34px;
+}

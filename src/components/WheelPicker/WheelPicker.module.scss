@@ -1,0 +1,31 @@
+.box {
+
+}
+
+.wheelPicker {
+  overflow-y: scroll;
+  text-align: center;
+  position: relative;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+
+}
+
+.wheelPicker::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  user-select: none;
+  color: #595d60;
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.active {
+  color:  #FFFFFF ;
+  font-size: 40px;
+  font-weight: 800;
+}
+
