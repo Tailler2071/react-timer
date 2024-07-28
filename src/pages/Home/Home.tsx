@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store.ts";
-import {removeAllTimers, removeTimer, stopAllTimers} from "../../redux/features/timers/timersSlice.ts";
+import {removeAllTimers, removeTimer} from "../../redux/features/timers/timersSlice.ts";
 import CustomTimer from "../../components/CustomTimer/CustomTimer.tsx";
 import AddIcon from "../../assets/icons/add.svg?react";
 import MinusIcon from "../../assets/icons/minus.svg?react";
