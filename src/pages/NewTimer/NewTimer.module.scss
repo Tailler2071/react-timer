@@ -6,7 +6,6 @@
 .top {
   padding: 0 26px;
   width: 390px;
-
 }
 
 .buttonCancel {
@@ -29,14 +28,11 @@
 .bn {
   display: grid;
   align-items: center;
-  //border: 1px solid red;
-  //background: linear-gradient(180deg, #000000 0%, #000000 11%, #1A1F23 35%, #1A1F23 51%, #1A1F23 51.01%, #000000 72.5%, #1A1F23 100%);
 }
 
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  //height: 195px;
   overflow: hidden;
   margin-bottom: 53px;
 }
@@ -54,4 +50,10 @@
   background-color: #29A354;
   border-radius: 32px;
   margin-bottom: 34px;
+
+  &:disabled {
+    background-color: #60967a;
+    color: #E0E0E0;
+    cursor: not-allowed;
+  }
 }

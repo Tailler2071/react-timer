@@ -6,6 +6,7 @@ interface ITimers {
     id: string;
     time: number;
     status?: "start" | "pause" | "resume" | "restart";
+    isActive?: boolean;
 }
 
 export interface CounterState {
@@ -14,11 +15,11 @@ export interface CounterState {
 
 const initialState: CounterState = {
     timers: [
-        {id: "1", time: 10, status: "start"},
-        {id: "2", time: 20, status: "start"},
-        {id: "3", time: 70, status: "start"},
-        {id: "4", time: 80, status: "start"},
-        {id: "5", time: 80, status: "start"},
+        {id: "1", time: 10, status: "start", isActive: false},
+        {id: "2", time: 20, status: "start", isActive: false},
+        {id: "3", time: 70, status: "start", isActive: false},
+        {id: "4", time: 80, status: "start", isActive: false},
+        {id: "5", time: 80, status: "start", isActive: false},
     ],
 };
 
@@ -32,9 +33,17 @@ export const timersSlice = createSlice({
         removeTimer: (state, action: PayloadAction<string>) => {
             state.timers = state.timers.filter(timer => timer.id !== action.payload);
         },
+        removeAllTimers: (state) => {
+            state.timers = [];
+        },
+        stopAllTimers: (state) => {
+            state.timers.forEach(timer => {
+                timer.isActive = false;
+            });
+        },
     },
 });
 
-export const {addTimer, removeTimer} = timersSlice.actions;
+export const {addTimer, removeTimer, removeAllTimers, stopAllTimers} = timersSlice.actions;
 
 export default timersSlice.reducer;

@@ -52,7 +52,7 @@ const BigTimer = ({expiryTimestamp, secondsTime}: BigTimerProps) => {
                 <CircularProgressbar
                     className={s.timer}
                     value={percent}
-                    text={`${minutes.toString().padStart(2, "0")}: ${seconds.toString().padStart(2, "0")}`}
+                    text={`${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
                     strokeWidth={3}
                     styles={buildStyles({
                         textColor: "white",

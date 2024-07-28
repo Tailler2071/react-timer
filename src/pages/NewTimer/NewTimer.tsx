@@ -16,7 +16,6 @@ const NewTimer = () => {
     const seconds = Array.from({length: 60}, (_, i) => i.toString().padStart(2, "0"));
     const totalSeconds = selectedMinute * 60 + selectedSecond;
 
-
     const startTimer = () => {
         setIsStarted(true);
         dispatch(addTimer(totalSeconds));
@@ -53,7 +52,9 @@ const NewTimer = () => {
                         />
                     </div>
                     <div className={s.buttonBox}>
-                        <button className={s.button} onClick={startTimer}>
+                        <button
+                            disabled={totalSeconds === 0}
+                            type="button" className={s.button} onClick={startTimer}>
                             Старт
                         </button>
                     </div>
