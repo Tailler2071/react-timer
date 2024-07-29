@@ -24,4 +24,10 @@ const getFormattedTimeFromMinutes = (milliseconds: number) => {
     return `${formattedMinutes} ${formattedSeconds}`;
 };
 
-export {getTime, getFormattedTime, getFormattedTimeFromMinutes};
+const getTimeForTimer = (sec: number) => {
+    const time = new Date();
+    return new Date(time.setSeconds(time.getSeconds() + sec));
+};
+
+export {getTime, getFormattedTime, getFormattedTimeFromMinutes, getTimeForTimer};
+

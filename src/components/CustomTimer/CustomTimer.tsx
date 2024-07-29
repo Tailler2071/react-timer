@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import Notification from "../Notification/Notification.tsx";
 import {useDispatch} from "react-redux";
 import {updateTimerStatus} from "../../redux/features/timers/timersSlice.ts";
+import {getTimeForTimer} from "../../utils/convertTime.ts";
 
 
 const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProps) => {
@@ -29,7 +30,8 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
         expiryTimestamp, onExpire: () => {
             notify();
             dispatch(updateTimerStatus({id, status: "restart"}));
-        }, autoStart: false
+        },
+        autoStart: false
     });
 
     const handleStart = () => {
@@ -48,10 +50,8 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
     };
 
     const handleRestart = () => {
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + secondsTime);
-        restart(time);
-        dispatch(updateTimerStatus({id, status: "restart"}));
+        restart(getTimeForTimer(secondsTime));
+        dispatch(updateTimerStatus({id, status: "start"}));
     };
 
     return (
@@ -62,13 +62,14 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
                     <span>{seconds.toString().padStart(2, "0")}</span>
                 </div>
                 <div className={s.total}>
-                    {totalMinutes < 1 ? "" : `${totalMinutes} мин`} {totalSeconds === 0 ? "" : `${totalSeconds} с`}
+                    <span>{totalMinutes < 1 ? "" : `${totalMinutes} мин`}</span>
+                    <span>{totalSeconds === 0 ? "" : `${totalSeconds} с`}</span>
                 </div>
             </div>
             <div className={s.buttons}>
                 {status === "stop" &&
                     <Button className={s.buttonStart} onClick={handleStart}> <StartIcon/> </Button>}
-                {status === "start" &&
+                {(status === "start" || status === "resume") &&
                     <Button className={s.buttonPause} onClick={handlePause}> <PauseIcon/> </Button>}
                 {status === "pause" &&
                     <Button className={s.buttonResume} onClick={handleResume}> <StartIcon/> </Button>}

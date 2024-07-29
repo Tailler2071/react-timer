@@ -1,6 +1,8 @@
+import {ITimers} from "../../redux/features/timers/timersSlice.ts";
+
 export interface CustomTimerProps {
     expiryTimestamp: Date;
     secondsTime: number;
-    status?: any;
-    id?: any;
+    status: ITimers["status"];
+    id: ITimers["id"]
 }
