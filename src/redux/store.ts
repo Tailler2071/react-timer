@@ -1,9 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
-import counterReducer from "./features/timers/timersSlice.ts";
+import timerReducer from "./features/timers/timersSlice.ts";
 
 export const store = configureStore({
     reducer: {
-        counter: counterReducer,
+        counter: timerReducer,
     },
 });
 

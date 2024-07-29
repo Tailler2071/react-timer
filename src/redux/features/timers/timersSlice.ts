@@ -24,7 +24,7 @@ const initialState: CounterState = {
 };
 
 export const timersSlice = createSlice({
-    name: "counter",
+    name: "timer",
     initialState,
     reducers: {
         addTimer: (state, action: PayloadAction<number>) => {
