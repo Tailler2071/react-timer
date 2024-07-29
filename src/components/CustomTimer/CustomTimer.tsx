@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {useTimer} from "react-timer-hook";
 import Button from "../Button/Button.tsx";
 import PauseIcon from "../../assets/icons/pause.svg?react";
@@ -8,15 +7,15 @@ import {CustomTimerProps} from "./CustomTimer.props.ts";
 import s from "./CustomTimer.module.scss";
 import {toast} from "react-toastify";
 import Notification from "../Notification/Notification.tsx";
+import {useDispatch} from "react-redux";
+import {updateTimerStatus} from "../../redux/features/timers/timersSlice.ts";
 
 
-const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
-    const [showStart, setShowStart] = useState(true);
-    const [showPause, setShowPause] = useState(false);
-    const [showResume, setShowResume] = useState(false);
-    const [showRestart, setShowRestart] = useState(false);
+const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProps) => {
     const totalMinutes = Math.floor(secondsTime / 60);
     const totalSeconds = secondsTime % 60;
+    const dispatch = useDispatch();
+
     const notify = () =>
         toast(<Notification text={`${totalMinutes} мин ${totalSeconds} c`} myToast={() => toast.dismiss()}/>);
     const {
@@ -29,36 +28,30 @@ const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
     } = useTimer({
         expiryTimestamp, onExpire: () => {
             notify();
-            setShowRestart(true);
-            setShowPause(false);
+            dispatch(updateTimerStatus({id, status: "restart"}));
         }, autoStart: false
     });
 
     const handleStart = () => {
         start();
-        setShowStart(false);
-        setShowPause(true);
+        dispatch(updateTimerStatus({id, status: "start"}));
     };
 
     const handlePause = () => {
         pause();
-        setShowPause(false);
-        setShowResume(true);
+        dispatch(updateTimerStatus({id, status: "pause"}));
     };
 
     const handleResume = () => {
         resume();
-        setShowResume(false);
-        setShowPause(true);
+        dispatch(updateTimerStatus({id, status: "resume"}));
     };
 
     const handleRestart = () => {
         const time = new Date();
-        time.setSeconds(time.getSeconds() + secondsTime); // 5 minutes timer
+        time.setSeconds(time.getSeconds() + secondsTime);
         restart(time);
-        setShowPause(true);
-        setShowResume(false);
-        setShowRestart(false);
+        dispatch(updateTimerStatus({id, status: "restart"}));
     };
 
     return (
@@ -73,10 +66,14 @@ const CustomTimer = ({expiryTimestamp, secondsTime}: CustomTimerProps) => {
                 </div>
             </div>
             <div className={s.buttons}>
-                {showStart && <Button className={s.buttonStart} onClick={handleStart}> <StartIcon/> </Button>}
-                {showPause && <Button className={s.buttonPause} onClick={handlePause}> <PauseIcon/> </Button>}
-                {showResume && <Button className={s.buttonResume} onClick={handleResume}> <StartIcon/> </Button>}
-                {showRestart && <Button className={s.buttonRestart} onClick={handleRestart}> <RetryIcon/> </Button>}
+                {status === "stop" &&
+                    <Button className={s.buttonStart} onClick={handleStart}> <StartIcon/> </Button>}
+                {status === "start" &&
+                    <Button className={s.buttonPause} onClick={handlePause}> <PauseIcon/> </Button>}
+                {status === "pause" &&
+                    <Button className={s.buttonResume} onClick={handleResume}> <StartIcon/> </Button>}
+                {status === "restart" &&
+                    <Button className={s.buttonRestart} onClick={handleRestart}> <RetryIcon/> </Button>}
             </div>
         </div>
     );

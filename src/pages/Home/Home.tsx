@@ -47,7 +47,7 @@ const Home = () => {
             ) : (
                 <>
                     <ul className={s.listOfTimers}>
-                        {timers.map(({id, time}) => {
+                        {timers.map(({id, time, status}) => {
                             const timeD = new Date();
                             timeD.setSeconds(timeD.getSeconds() + time);
 
@@ -59,7 +59,7 @@ const Home = () => {
                                                 <MinusIcon/>
                                             </button>}
                                     </div>
-                                    <CustomTimer expiryTimestamp={timeD} secondsTime={time}/>
+                                    <CustomTimer expiryTimestamp={timeD} secondsTime={time} status={status} id={id}/>
                                 </li>
                             );
                         })}
