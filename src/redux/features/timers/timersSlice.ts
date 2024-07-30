@@ -55,6 +55,7 @@ export const {
     addTimer,
     removeTimer,
     removeAllTimers,
+    stopAllTimers,
     updateTimerStatus
 } = timersSlice.actions;
 

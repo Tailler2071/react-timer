@@ -8,8 +8,9 @@ import s from "./CustomTimer.module.scss";
 import {toast} from "react-toastify";
 import Notification from "../Notification/Notification.tsx";
 import {useDispatch} from "react-redux";
-import {updateTimerStatus} from "../../redux/features/timers/timersSlice.ts";
+import { updateTimerStatus} from "../../redux/features/timers/timersSlice.ts";
 import {getTimeForTimer} from "../../utils/convertTime.ts";
+import {useEffect} from "react";
 
 
 const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProps) => {
@@ -25,7 +26,7 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
         start,
         pause,
         resume,
-        restart
+        restart,
     } = useTimer({
         expiryTimestamp, onExpire: () => {
             notify();
@@ -53,6 +54,13 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
         restart(getTimeForTimer(secondsTime));
         dispatch(updateTimerStatus({id, status: "start"}));
     };
+
+    useEffect(() => {
+        if (status === "stop") {
+            restart(getTimeForTimer(secondsTime), false);
+        }
+
+    }, [status, restart, secondsTime]);
 
     return (
         <div className={s.item}>
