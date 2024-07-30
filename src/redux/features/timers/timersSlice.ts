@@ -27,7 +27,7 @@ export const timersSlice = createSlice({
     initialState,
     reducers: {
         addTimer: (state, action: PayloadAction<number>) => {
-            state.timers.push({id: uuidv4(), time: action.payload, status: "start"});
+            state.timers.push({id: uuidv4(), time: action.payload, status: "stop"});
         },
         removeTimer: (state, action: PayloadAction<string>) => {
             state.timers = state.timers.filter(timer => timer.id !== action.payload);
