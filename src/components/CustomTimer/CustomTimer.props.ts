@@ -5,4 +5,5 @@ export interface CustomTimerProps {
     secondsTime: number;
     status: ITimers["status"];
     id: ITimers["id"]
+    isEdit: boolean
 }

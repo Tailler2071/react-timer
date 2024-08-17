@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import {useTimer} from "react-timer-hook";
 import Button from "../Button/Button.tsx";
 import PauseIcon from "../../assets/icons/pause.svg?react";
@@ -8,12 +9,12 @@ import s from "./CustomTimer.module.scss";
 import {toast} from "react-toastify";
 import Notification from "../Notification/Notification.tsx";
 import {useDispatch} from "react-redux";
-import { updateTimerStatus} from "../../redux/features/timers/timersSlice.ts";
+import {removeTimer, updateTimerStatus} from "../../redux/features/timers/timersSlice.ts";
 import {getTimeForTimer} from "../../utils/convertTime.ts";
-import {useEffect} from "react";
+import MinusIcon from "../../assets/icons/minus.svg?react";
 
 
-const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProps) => {
+const CustomTimer = ({expiryTimestamp, secondsTime, status, id, isEdit}: CustomTimerProps) => {
     const totalMinutes = Math.floor(secondsTime / 60);
     const totalSeconds = secondsTime % 60;
     const dispatch = useDispatch();
@@ -55,6 +56,10 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
         dispatch(updateTimerStatus({id, status: "start"}));
     };
 
+    const handleRemoveTimer = (id: string) => {
+        dispatch(removeTimer(id));
+    };
+
     useEffect(() => {
         if (status === "stop") {
             restart(getTimeForTimer(secondsTime), false);
@@ -63,28 +68,41 @@ const CustomTimer = ({expiryTimestamp, secondsTime, status, id}: CustomTimerProp
     }, [status, restart, secondsTime]);
 
     return (
-        <div className={s.item}>
-            <div className={s.view}>
-                <div className={s.timer}>
-                    <span>{minutes.toString().padStart(2, "0")}</span>:
-                    <span>{seconds.toString().padStart(2, "0")}</span>
+        <li className={s.item}>
+            <div className={s.left}>
+                {isEdit &&
+                    <button
+                        type="button"
+                        className={s.delete}
+                        onClick={() => handleRemoveTimer(id)}
+                    >
+                        <MinusIcon/>
+                    </button>
+                }
+            </div>
+            <div className={s.right}>
+                <div className={s.view}>
+                    <div className={s.timer}>
+                        <span>{minutes.toString().padStart(2, "0")}</span>:
+                        <span>{seconds.toString().padStart(2, "0")}</span>
+                    </div>
+                    <div className={s.total}>
+                        <span>{totalMinutes < 1 ? "" : `${totalMinutes} мин `}</span>
+                        <span>{totalSeconds === 0 ? "" : `${totalSeconds} с`}</span>
+                    </div>
                 </div>
-                <div className={s.total}>
-                    <span>{totalMinutes < 1 ? "" : `${totalMinutes} мин`}</span>
-                    <span>{totalSeconds === 0 ? "" : `${totalSeconds} с`}</span>
+                <div className={s.buttons}>
+                    {status === "stop" &&
+                        <Button className={s.buttonStart} onClick={handleStart}> <StartIcon/> </Button>}
+                    {(status === "start" || status === "resume") &&
+                        <Button className={s.buttonPause} onClick={handlePause}> <PauseIcon/> </Button>}
+                    {status === "pause" &&
+                        <Button className={s.buttonResume} onClick={handleResume}> <StartIcon/> </Button>}
+                    {status === "restart" &&
+                        <Button className={s.buttonRestart} onClick={handleRestart}> <RetryIcon/> </Button>}
                 </div>
             </div>
-            <div className={s.buttons}>
-                {status === "stop" &&
-                    <Button className={s.buttonStart} onClick={handleStart}> <StartIcon/> </Button>}
-                {(status === "start" || status === "resume") &&
-                    <Button className={s.buttonPause} onClick={handlePause}> <PauseIcon/> </Button>}
-                {status === "pause" &&
-                    <Button className={s.buttonResume} onClick={handleResume}> <StartIcon/> </Button>}
-                {status === "restart" &&
-                    <Button className={s.buttonRestart} onClick={handleRestart}> <RetryIcon/> </Button>}
-            </div>
-        </div>
+        </li>
     );
 };
 
